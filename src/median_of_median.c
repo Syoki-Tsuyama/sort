@@ -13,9 +13,17 @@ void swap(int *p, int *q){
   *q = tmp;
 }
 
+int mid(int A[], int n) {
+  
+}
+
+int midOfMid(int A[], int n) {
+
+}
+
 int quick_select(int A[], int n, int k){
   int i, j, pivot;
-
+  int mid_of_mid = midOfMid(A, n);
 // 真ん中の要素をピボットとする
   pivot = A[n/2];
   A[n/2] = A[0];
