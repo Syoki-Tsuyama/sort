@@ -19,7 +19,6 @@ void partition3(int A[], int n, int x) {
   while(1) {
     for(i=i; i<n; i++) if (A[i] >= x) break;
     for(j=j; j>=0; j--) if (A[j] < x) break;
-
     if (i >= j) break;
     swap(A+i, A+j);
     i++; j--;
@@ -28,7 +27,6 @@ void partition3(int A[], int n, int x) {
   while(1) {
     for(i=i; i<n; i++) if (A[i] > x) break;
     for(j=j; j>=0; j--) if (A[j] == x) break;
-
     if (i >= j) break;
     swap(A+i, A+j);
     i++; j--;
@@ -40,7 +38,14 @@ A[0], A[1], ..., A[n-1] をソートして昇順に書き換える関数
 */
 void quick_sort(int A[], int n){
   if (n == 0) return;
+  int pivot = A[n/2];
+  partition3(A, n, pivot);
 
+  int i, j;
+  for(i=0; i<n; i++) if(A[i] >= pivot) break;
+  for(j=i; j<n; j++) if(A[j] > pivot) break;
+  quick_sort(A, i);
+  quick_sort(A+j, n - j);
 }
 
 int main(){
