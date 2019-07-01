@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 // 素数
-#define N 2999
+#define N 50
 
 int A[N];
 
@@ -19,7 +19,7 @@ A[0], A[1], ..., A[n-1] の中でk+1番目に小さい値を返す関数
 */
 int quick_select(int A[], int n, int k){
   int i, j, pivot;
-
+  printf("pivot = %d\n", pivot);
 // 真ん中の要素をピボットとする
   pivot = A[n/2];
   A[n/2] = A[0];
@@ -28,6 +28,9 @@ int quick_select(int A[], int n, int k){
     if(A[i] <= pivot){
       swap(A+i, A+j);
       j++;
+      printf("A=[");
+      for (int p = 0; p < N; p++) printf("%d,", A[p]);
+      printf("]\n");
     }
   }
 
