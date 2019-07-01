@@ -13,11 +13,34 @@ void swap(int *p, int *q){
   *q = tmp;
 }
 
+// xを基準とした分割を作る
+void partition3(int A[], int n, int x) {
+  int i=0, j=n-1;
+  while(1) {
+    for(i=i; i<n; i++) if (A[i] >= x) break;
+    for(j=j; j>=0; j--) if (A[j] < x) break;
+
+    if (i >= j) break;
+    swap(A+i, A+j);
+    i++; j--;
+  }
+  i=0; j=n-1;
+  while(1) {
+    for(i=i; i<n; i++) if (A[i] > x) break;
+    for(j=j; j>=0; j--) if (A[j] == x) break;
+
+    if (i >= j) break;
+    swap(A+i, A+j);
+    i++; j--;
+  }
+}
 
 /*
 A[0], A[1], ..., A[n-1] をソートして昇順に書き換える関数
 */
 void quick_sort(int A[], int n){
+  if (n == 0) return;
+
 }
 
 int main(){
