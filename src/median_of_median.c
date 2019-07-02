@@ -13,33 +13,69 @@ void swap(int *p, int *q){
   *q = tmp;
 }
 
-int mid(int A[], int n) {
-  
+// xを基準とした分割を作る
+void partition3(int A[], int n, int x) {
+  int i=0, j=n-1;
+  while(1) {
+    for(i=i; i<n; i++) if (A[i] >= x) break;
+    for(j=j; j>=0; j--) if (A[j] < x) break;
+    if (i >= j) break;
+    swap(A+i, A+j);
+    i++; j--;
+  }
+  i=0; j=n-1;
+  while(1) {
+    for(i=i; i<n; i++) if (A[i] > x) break;
+    for(j=j; j>=0; j--) if (A[j] == x) break;
+    if (i >= j) break;
+    swap(A+i, A+j);
+    i++; j--;
+  }
 }
 
-int midOfMid(int A[], int n) {
+void quick_sort(int A[], int n){
+  if (n == 0) return;
+  int pivot = A[n/2];
+  partition3(A, n, pivot);
 
+  int i, j;
+  for(i=0; i<n; i++) if(A[i] >= pivot) break;
+  for(j=i; j<n; j++) if(A[j] > pivot) break;
+  quick_sort(A, i);
+  quick_sort(A+j, n - j);
+}
+
+int median(int A[], int n) {
+  quick_sort(A, n);
+  if (n%2==0) return (A[n/2-1] + A[n/2]) / 2;
+  else return A[n/2];
+}
+
+int medOfMed(int A[], int n) {
+  int tmp[N] = {};
+  int i, j = 0;
+  for(i=0; i < n; i+=5) {
+    tmp[j] = median(A+i, i+5<n ? 5 : n-i);
+    j++;
+  }
+  return median(tmp, j);
 }
 
 int quick_select(int A[], int n, int k){
-  int i, j, pivot;
-  int mid_of_mid = midOfMid(A, n);
-// 真ん中の要素をピボットとする
-  pivot = A[n/2];
-  A[n/2] = A[0];
-  A[0] = pivot;
-  for(i = j = 1; i < n; i++){
-    if(A[i] <= pivot){
-      swap(A+i, A+j);
-      j++;
-    }
+  if (n <= 5) {
+    quick_sort(A, n);
+    return A[k];
   }
-
-  if(j == k+1) return pivot;
-  else if(j < k+1) return quick_select(A+j, n-j, k-j);
-  else return quick_select(A+1, j-1, k);
+  int pivot = medOfMed(A, n);
+  partition3(A, n, pivot);
+  int l, r;
+  for(l=0; l<n; l++) if(A[l] >= pivot) break;
+  for(r=l; r<n; r++) if(A[r] > pivot) break;
+  if(l == k) return pivot;
+  else if (l == 0) return k < r ? pivot : quick_select(A+r, n-r, k-r);
+  else if(l < k) return quick_select(A+l, n-l, k-l);
+  else return quick_select(A, l, k);
 }
-
 
 int main(){
   int i;
