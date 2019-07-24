@@ -19,23 +19,24 @@ A[0], A[1], ..., A[n-1] をソートして昇順に書き換える関数
 void quick_sort(int A[], int n){
   // 真ん中の要素をピボットとする
   int pivot = A[n/2];
-
-  int i=0, j=n-1;
-  while(1) {
-    for(i=i; i < n ; i++) if (A[i] >= pivot) break;
-    for(j=j; j >= 0; j--) if (A[j] <= pivot) break;
-
-    if (i >= j) break;
-    swap(A + i, A + j);
-    i++; j--;
+  A[n/2] = A[0];
+  A[0] = pivot;
+  int j; // pivotのひとつ右のindex
+  int i;
+  for(i = j = 1; i < n; i++) {
+    if(A[i] <= pivot) {
+      swap(A+i, A+j);
+      j++;
+    }
   }
+  swap(A, A+j-1);
   if (n > 1) {
-    quick_sort(A, i);
-    quick_sort(A+i, n-i);
+    quick_sort(A, j-1);
+    quick_sort(A+j, n - j);
   }
 }
 
-int main(){
+int main() {
   int i;
   A[0] = 0;
   A[1] = 17; //原始元
